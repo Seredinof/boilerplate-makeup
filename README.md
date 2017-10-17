@@ -8,5 +8,5 @@
 Задачи gulp
 ============
 
-* gulp build - пересобирает css, js, svg спрайты и переносит в папку
+* gulp build - пересобирает css, js, svg спрайты
 * gulp (gulp default) - выполняет "gulp build" и запускает сервер browser-sync с вотчерами.
