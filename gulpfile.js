@@ -61,7 +61,9 @@ gulp.task('images', function(){
             let imgGlob=dir + '/*.{jpg,png,svg,gif}';
             return imgGlob;
         }))
-            .pipe(production ? imagemin() : util.noop())
+            .pipe(production ? imagemin({
+                verbose: true
+            }) : util.noop())
             .pipe(gulp.dest(bundlesName + '/images'))
             .pipe(reload({stream:true}));
     });
