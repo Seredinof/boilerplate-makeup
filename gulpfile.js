@@ -13,11 +13,13 @@ let gulp = require('gulp'),
     csso = require('gulp-csso'),
     cssbeautify = require('gulp-cssbeautify'),
     babel = require('gulp-babel'),
-    webpack = require('webpack-stream');
+    webpack = require('webpack-stream'),
+    util = require('gulp-util');
 
 let levels = bemconfig.levels,
     bundlesName = bemconfig.bundlesName;
 
+var production = !!util.env.production;
 
 gulp.task('default', ['build', 'server']);
 
@@ -31,7 +33,7 @@ gulp.task('css', function(){
             .pipe(concat('styles.scss'))
             .pipe(sass().on('error', sass.logError))
             .pipe(csso())
-            .pipe(cssbeautify())
+            .pipe(!production ? cssbeautify() : util.noop())
             .pipe(postcss([autoprefixer]))
             .pipe(gulp.dest(bundlesName + '/css'))
             .pipe(reload({stream:true}));

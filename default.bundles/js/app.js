@@ -10362,18 +10362,21 @@ __webpack_require__(4);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(jQuery) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(5);
+
 
 
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.0.0-beta): modal.js
+ * Bootstrap (v4.0.0-beta.2): modal.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
 
-const Modal = (($) => {
+const Modal = (() => {
 
 
   /**
@@ -10383,11 +10386,11 @@ const Modal = (($) => {
    */
 
   const NAME                         = 'modal'
-  const VERSION                      = '4.0.0-beta'
+  const VERSION                      = '4.0.0-beta.2'
   const DATA_KEY                     = 'bs.modal'
   const EVENT_KEY                    = `.${DATA_KEY}`
   const DATA_API_KEY                 = '.data-api'
-  const JQUERY_NO_CONFLICT           = $.fn[NAME]
+  const JQUERY_NO_CONFLICT           = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn[NAME]
   const TRANSITION_DURATION          = 300
   const BACKDROP_TRANSITION_DURATION = 150
   const ESCAPE_KEYCODE               = 27 // KeyboardEvent.which value for Escape (Esc) key
@@ -10433,6 +10436,7 @@ const Modal = (($) => {
     DATA_TOGGLE        : '[data-toggle="modal"]',
     DATA_DISMISS       : '[data-dismiss="modal"]',
     FIXED_CONTENT      : '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top',
+    STICKY_CONTENT     : '.sticky-top',
     NAVBAR_TOGGLER     : '.navbar-toggler'
   }
 
@@ -10448,7 +10452,7 @@ const Modal = (($) => {
     constructor(element, config) {
       this._config              = this._getConfig(config)
       this._element             = element
-      this._dialog              = $(element).find(Selector.DIALOG)[0]
+      this._dialog              = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).find(Selector.DIALOG)[0]
       this._backdrop            = null
       this._isShown             = false
       this._isBodyOverflowing   = false
@@ -10476,19 +10480,19 @@ const Modal = (($) => {
     }
 
     show(relatedTarget) {
-      if (this._isTransitioning) {
+      if (this._isTransitioning || this._isShown) {
         return
       }
 
-      if (__WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].supportsTransitionEnd() && $(this._element).hasClass(ClassName.FADE)) {
+      if (__WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].supportsTransitionEnd() && __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).hasClass(ClassName.FADE)) {
         this._isTransitioning = true
       }
 
-      const showEvent = $.Event(Event.SHOW, {
+      const showEvent = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.Event(Event.SHOW, {
         relatedTarget
       })
 
-      $(this._element).trigger(showEvent)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).trigger(showEvent)
 
       if (this._isShown || showEvent.isDefaultPrevented()) {
         return
@@ -10499,20 +10503,22 @@ const Modal = (($) => {
       this._checkScrollbar()
       this._setScrollbar()
 
-      $(document.body).addClass(ClassName.OPEN)
+      this._adjustDialog()
+
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document.body).addClass(ClassName.OPEN)
 
       this._setEscapeEvent()
       this._setResizeEvent()
 
-      $(this._element).on(
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).on(
         Event.CLICK_DISMISS,
         Selector.DATA_DISMISS,
         (event) => this.hide(event)
       )
 
-      $(this._dialog).on(Event.MOUSEDOWN_DISMISS, () => {
-        $(this._element).one(Event.MOUSEUP_DISMISS, (event) => {
-          if ($(event.target).is(this._element)) {
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._dialog).on(Event.MOUSEDOWN_DISMISS, () => {
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).one(Event.MOUSEUP_DISMISS, (event) => {
+          if (__WEBPACK_IMPORTED_MODULE_0_jquery___default()(event.target).is(this._element)) {
             this._ignoreBackdropClick = true
           }
         })
@@ -10530,15 +10536,9 @@ const Modal = (($) => {
         return
       }
 
-      const transition = __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].supportsTransitionEnd() && $(this._element).hasClass(ClassName.FADE)
+      const hideEvent = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.Event(Event.HIDE)
 
-      if (transition) {
-        this._isTransitioning = true
-      }
-
-      const hideEvent = $.Event(Event.HIDE)
-
-      $(this._element).trigger(hideEvent)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).trigger(hideEvent)
 
       if (!this._isShown || hideEvent.isDefaultPrevented()) {
         return
@@ -10546,20 +10546,26 @@ const Modal = (($) => {
 
       this._isShown = false
 
+      const transition = __WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].supportsTransitionEnd() && __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).hasClass(ClassName.FADE)
+
+      if (transition) {
+        this._isTransitioning = true
+      }
+
       this._setEscapeEvent()
       this._setResizeEvent()
 
-      $(document).off(Event.FOCUSIN)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).off(Event.FOCUSIN)
 
-      $(this._element).removeClass(ClassName.SHOW)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).removeClass(ClassName.SHOW)
 
-      $(this._element).off(Event.CLICK_DISMISS)
-      $(this._dialog).off(Event.MOUSEDOWN_DISMISS)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).off(Event.CLICK_DISMISS)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._dialog).off(Event.MOUSEDOWN_DISMISS)
 
       if (transition) {
 
-        $(this._element)
-          .one(__WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].TRANSITION_END, (event) => this._hideModal(event))
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element)
+          .one(__WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].TRANSITION_END, (event) => this._hideModal(event))
           .emulateTransitionEnd(TRANSITION_DURATION)
       } else {
         this._hideModal()
@@ -10567,9 +10573,9 @@ const Modal = (($) => {
     }
 
     dispose() {
-      $.removeData(this._element, DATA_KEY)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.removeData(this._element, DATA_KEY)
 
-      $(window, document, this._element, this._backdrop).off(EVENT_KEY)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(window, document, this._element, this._backdrop).off(EVENT_KEY)
 
       this._config              = null
       this._element             = null
@@ -10588,14 +10594,14 @@ const Modal = (($) => {
     // private
 
     _getConfig(config) {
-      config = $.extend({}, Default, config)
-      __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].typeCheckConfig(NAME, config, DefaultType)
+      config = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.extend({}, Default, config)
+      __WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].typeCheckConfig(NAME, config, DefaultType)
       return config
     }
 
     _showElement(relatedTarget) {
-      const transition = __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].supportsTransitionEnd() &&
-        $(this._element).hasClass(ClassName.FADE)
+      const transition = __WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].supportsTransitionEnd() &&
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).hasClass(ClassName.FADE)
 
       if (!this._element.parentNode ||
          this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
@@ -10608,16 +10614,16 @@ const Modal = (($) => {
       this._element.scrollTop = 0
 
       if (transition) {
-        __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].reflow(this._element)
+        __WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].reflow(this._element)
       }
 
-      $(this._element).addClass(ClassName.SHOW)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).addClass(ClassName.SHOW)
 
       if (this._config.focus) {
         this._enforceFocus()
       }
 
-      const shownEvent = $.Event(Event.SHOWN, {
+      const shownEvent = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.Event(Event.SHOWN, {
         relatedTarget
       })
 
@@ -10626,12 +10632,12 @@ const Modal = (($) => {
           this._element.focus()
         }
         this._isTransitioning = false
-        $(this._element).trigger(shownEvent)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).trigger(shownEvent)
       }
 
       if (transition) {
-        $(this._dialog)
-          .one(__WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].TRANSITION_END, transitionComplete)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._dialog)
+          .one(__WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].TRANSITION_END, transitionComplete)
           .emulateTransitionEnd(TRANSITION_DURATION)
       } else {
         transitionComplete()
@@ -10639,12 +10645,12 @@ const Modal = (($) => {
     }
 
     _enforceFocus() {
-      $(document)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document)
         .off(Event.FOCUSIN) // guard against infinite focus loop
         .on(Event.FOCUSIN, (event) => {
           if (document !== event.target &&
               this._element !== event.target &&
-              !$(this._element).has(event.target).length) {
+              !__WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).has(event.target).length) {
             this._element.focus()
           }
         })
@@ -10652,7 +10658,7 @@ const Modal = (($) => {
 
     _setEscapeEvent() {
       if (this._isShown && this._config.keyboard) {
-        $(this._element).on(Event.KEYDOWN_DISMISS, (event) => {
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).on(Event.KEYDOWN_DISMISS, (event) => {
           if (event.which === ESCAPE_KEYCODE) {
             event.preventDefault()
             this.hide()
@@ -10660,15 +10666,15 @@ const Modal = (($) => {
         })
 
       } else if (!this._isShown) {
-        $(this._element).off(Event.KEYDOWN_DISMISS)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).off(Event.KEYDOWN_DISMISS)
       }
     }
 
     _setResizeEvent() {
       if (this._isShown) {
-        $(window).on(Event.RESIZE, (event) => this.handleUpdate(event))
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(window).on(Event.RESIZE, (event) => this.handleUpdate(event))
       } else {
-        $(window).off(Event.RESIZE)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(window).off(Event.RESIZE)
       }
     }
 
@@ -10677,37 +10683,37 @@ const Modal = (($) => {
       this._element.setAttribute('aria-hidden', true)
       this._isTransitioning = false
       this._showBackdrop(() => {
-        $(document.body).removeClass(ClassName.OPEN)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document.body).removeClass(ClassName.OPEN)
         this._resetAdjustments()
         this._resetScrollbar()
-        $(this._element).trigger(Event.HIDDEN)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).trigger(Event.HIDDEN)
       })
     }
 
     _removeBackdrop() {
       if (this._backdrop) {
-        $(this._backdrop).remove()
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._backdrop).remove()
         this._backdrop = null
       }
     }
 
     _showBackdrop(callback) {
-      const animate = $(this._element).hasClass(ClassName.FADE) ?
+      const animate = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).hasClass(ClassName.FADE) ?
         ClassName.FADE : ''
 
       if (this._isShown && this._config.backdrop) {
-        const doAnimate = __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].supportsTransitionEnd() && animate
+        const doAnimate = __WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].supportsTransitionEnd() && animate
 
         this._backdrop = document.createElement('div')
         this._backdrop.className = ClassName.BACKDROP
 
         if (animate) {
-          $(this._backdrop).addClass(animate)
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._backdrop).addClass(animate)
         }
 
-        $(this._backdrop).appendTo(document.body)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._backdrop).appendTo(document.body)
 
-        $(this._element).on(Event.CLICK_DISMISS, (event) => {
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).on(Event.CLICK_DISMISS, (event) => {
           if (this._ignoreBackdropClick) {
             this._ignoreBackdropClick = false
             return
@@ -10723,10 +10729,10 @@ const Modal = (($) => {
         })
 
         if (doAnimate) {
-          __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].reflow(this._backdrop)
+          __WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].reflow(this._backdrop)
         }
 
-        $(this._backdrop).addClass(ClassName.SHOW)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._backdrop).addClass(ClassName.SHOW)
 
         if (!callback) {
           return
@@ -10737,12 +10743,12 @@ const Modal = (($) => {
           return
         }
 
-        $(this._backdrop)
-          .one(__WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].TRANSITION_END, callback)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._backdrop)
+          .one(__WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].TRANSITION_END, callback)
           .emulateTransitionEnd(BACKDROP_TRANSITION_DURATION)
 
       } else if (!this._isShown && this._backdrop) {
-        $(this._backdrop).removeClass(ClassName.SHOW)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._backdrop).removeClass(ClassName.SHOW)
 
         const callbackRemove = () => {
           this._removeBackdrop()
@@ -10751,10 +10757,10 @@ const Modal = (($) => {
           }
         }
 
-        if (__WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].supportsTransitionEnd() &&
-           $(this._element).hasClass(ClassName.FADE)) {
-          $(this._backdrop)
-            .one(__WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].TRANSITION_END, callbackRemove)
+        if (__WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].supportsTransitionEnd() &&
+           __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._element).hasClass(ClassName.FADE)) {
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this._backdrop)
+            .one(__WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].TRANSITION_END, callbackRemove)
             .emulateTransitionEnd(BACKDROP_TRANSITION_DURATION)
         } else {
           callbackRemove()
@@ -10790,7 +10796,8 @@ const Modal = (($) => {
     }
 
     _checkScrollbar() {
-      this._isBodyOverflowing = document.body.clientWidth < window.innerWidth
+      const rect = document.body.getBoundingClientRect()
+      this._isBodyOverflowing = rect.left + rect.right < window.innerWidth
       this._scrollbarWidth = this._getScrollbarWidth()
     }
 
@@ -10800,47 +10807,54 @@ const Modal = (($) => {
         //   while $(DOMNode).css('padding-right') returns the calculated value or 0 if not set
 
         // Adjust fixed content padding
-        $(Selector.FIXED_CONTENT).each((index, element) => {
-          const actualPadding = $(element)[0].style.paddingRight
-          const calculatedPadding = $(element).css('padding-right')
-          $(element).data('padding-right', actualPadding).css('padding-right', `${parseFloat(calculatedPadding) + this._scrollbarWidth}px`)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(Selector.FIXED_CONTENT).each((index, element) => {
+          const actualPadding = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element)[0].style.paddingRight
+          const calculatedPadding = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).css('padding-right')
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).data('padding-right', actualPadding).css('padding-right', `${parseFloat(calculatedPadding) + this._scrollbarWidth}px`)
+        })
+
+        // Adjust sticky content margin
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(Selector.STICKY_CONTENT).each((index, element) => {
+          const actualMargin = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element)[0].style.marginRight
+          const calculatedMargin = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).css('margin-right')
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).data('margin-right', actualMargin).css('margin-right', `${parseFloat(calculatedMargin) - this._scrollbarWidth}px`)
         })
 
         // Adjust navbar-toggler margin
-        $(Selector.NAVBAR_TOGGLER).each((index, element) => {
-          const actualMargin = $(element)[0].style.marginRight
-          const calculatedMargin = $(element).css('margin-right')
-          $(element).data('margin-right', actualMargin).css('margin-right', `${parseFloat(calculatedMargin) + this._scrollbarWidth}px`)
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(Selector.NAVBAR_TOGGLER).each((index, element) => {
+          const actualMargin = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element)[0].style.marginRight
+          const calculatedMargin = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).css('margin-right')
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).data('margin-right', actualMargin).css('margin-right', `${parseFloat(calculatedMargin) + this._scrollbarWidth}px`)
         })
 
         // Adjust body padding
         const actualPadding = document.body.style.paddingRight
-        const calculatedPadding = $('body').css('padding-right')
-        $('body').data('padding-right', actualPadding).css('padding-right', `${parseFloat(calculatedPadding) + this._scrollbarWidth}px`)
+        const calculatedPadding = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('body').css('padding-right')
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('body').data('padding-right', actualPadding).css('padding-right', `${parseFloat(calculatedPadding) + this._scrollbarWidth}px`)
       }
     }
 
     _resetScrollbar() {
       // Restore fixed content padding
-      $(Selector.FIXED_CONTENT).each((index, element) => {
-        const padding = $(element).data('padding-right')
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(Selector.FIXED_CONTENT).each((index, element) => {
+        const padding = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).data('padding-right')
         if (typeof padding !== 'undefined') {
-          $(element).css('padding-right', padding).removeData('padding-right')
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).css('padding-right', padding).removeData('padding-right')
         }
       })
 
-      // Restore navbar-toggler margin
-      $(Selector.NAVBAR_TOGGLER).each((index, element) => {
-        const margin = $(element).data('margin-right')
+      // Restore sticky content and navbar-toggler margin
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(`${Selector.STICKY_CONTENT}, ${Selector.NAVBAR_TOGGLER}`).each((index, element) => {
+        const margin = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).data('margin-right')
         if (typeof margin !== 'undefined') {
-          $(element).css('margin-right', margin).removeData('margin-right')
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).css('margin-right', margin).removeData('margin-right')
         }
       })
 
       // Restore body padding
-      const padding = $('body').data('padding-right')
+      const padding = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('body').data('padding-right')
       if (typeof padding !== 'undefined') {
-        $('body').css('padding-right', padding).removeData('padding-right')
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('body').css('padding-right', padding).removeData('padding-right')
       }
     }
 
@@ -10858,21 +10872,21 @@ const Modal = (($) => {
 
     static _jQueryInterface(config, relatedTarget) {
       return this.each(function () {
-        let data      = $(this).data(DATA_KEY)
-        const _config = $.extend(
+        let data      = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).data(DATA_KEY)
+        const _config = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.extend(
           {},
           Modal.Default,
-          $(this).data(),
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).data(),
           typeof config === 'object' && config
         )
 
         if (!data) {
           data = new Modal(this, _config)
-          $(this).data(DATA_KEY, data)
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).data(DATA_KEY, data)
         }
 
         if (typeof config === 'string') {
-          if (data[config] === undefined) {
+          if (typeof data[config] === 'undefined') {
             throw new Error(`No method named "${config}"`)
           }
           data[config](relatedTarget)
@@ -10891,35 +10905,35 @@ const Modal = (($) => {
    * ------------------------------------------------------------------------
    */
 
-  $(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
+  __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
     let target
-    const selector = __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].getSelectorFromElement(this)
+    const selector = __WEBPACK_IMPORTED_MODULE_1__util__["a" /* default */].getSelectorFromElement(this)
 
     if (selector) {
-      target = $(selector)[0]
+      target = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(selector)[0]
     }
 
-    const config = $(target).data(DATA_KEY) ?
-      'toggle' : $.extend({}, $(target).data(), $(this).data())
+    const config = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(target).data(DATA_KEY) ?
+      'toggle' : __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.extend({}, __WEBPACK_IMPORTED_MODULE_0_jquery___default()(target).data(), __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).data())
 
     if (this.tagName === 'A' || this.tagName === 'AREA') {
       event.preventDefault()
     }
 
-    const $target = $(target).one(Event.SHOW, (showEvent) => {
+    const $target = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(target).one(Event.SHOW, (showEvent) => {
       if (showEvent.isDefaultPrevented()) {
         // only register focus restorer if modal will actually get shown
         return
       }
 
       $target.one(Event.HIDDEN, () => {
-        if ($(this).is(':visible')) {
+        if (__WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).is(':visible')) {
           this.focus()
         }
       })
     })
 
-    Modal._jQueryInterface.call($(target), config, this)
+    Modal._jQueryInterface.call(__WEBPACK_IMPORTED_MODULE_0_jquery___default()(target), config, this)
   })
 
 
@@ -10929,34 +10943,37 @@ const Modal = (($) => {
    * ------------------------------------------------------------------------
    */
 
-  $.fn[NAME]             = Modal._jQueryInterface
-  $.fn[NAME].Constructor = Modal
-  $.fn[NAME].noConflict  = function () {
-    $.fn[NAME] = JQUERY_NO_CONFLICT
+  __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn[NAME]             = Modal._jQueryInterface
+  __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn[NAME].Constructor = Modal
+  __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn[NAME].noConflict  = function () {
+    __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn[NAME] = JQUERY_NO_CONFLICT
     return Modal._jQueryInterface
   }
 
   return Modal
 
-})(jQuery)
+})(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a)
 
 /* harmony default export */ __webpack_exports__["default"] = (Modal);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 /* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(jQuery) {/**
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+
+
+/**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.0.0-beta): util.js
+ * Bootstrap (v4.0.0-beta.2): util.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
 
-const Util = (($) => {
+const Util = (() => {
 
 
   /**
@@ -10981,19 +10998,15 @@ const Util = (($) => {
     return {}.toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
   }
 
-  function isElement(obj) {
-    return (obj[0] || obj).nodeType
-  }
-
   function getSpecialTransitionEndEvent() {
     return {
       bindType: transition.end,
       delegateType: transition.end,
       handle(event) {
-        if ($(event.target).is(this)) {
+        if (__WEBPACK_IMPORTED_MODULE_0_jquery___default()(event.target).is(this)) {
           return event.handleObj.handler.apply(this, arguments) // eslint-disable-line prefer-rest-params
         }
-        return undefined
+        return undefined // eslint-disable-line no-undefined
       }
     }
   }
@@ -11006,7 +11019,7 @@ const Util = (($) => {
     const el = document.createElement('bootstrap')
 
     for (const name in TransitionEndEvent) {
-      if (el.style[name] !== undefined) {
+      if (typeof el.style[name] !== 'undefined') {
         return {
           end: TransitionEndEvent[name]
         }
@@ -11019,7 +11032,7 @@ const Util = (($) => {
   function transitionEndEmulator(duration) {
     let called = false
 
-    $(this).one(Util.TRANSITION_END, () => {
+    __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).one(Util.TRANSITION_END, () => {
       called = true
     })
 
@@ -11035,10 +11048,10 @@ const Util = (($) => {
   function setTransitionEndSupport() {
     transition = transitionEndTest()
 
-    $.fn.emulateTransitionEnd = transitionEndEmulator
+    __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn.emulateTransitionEnd = transitionEndEmulator
 
     if (Util.supportsTransitionEnd()) {
-      $.event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent()
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent()
     }
   }
 
@@ -11068,7 +11081,7 @@ const Util = (($) => {
       }
 
       try {
-        const $selector = $(selector)
+        const $selector = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).find(selector)
         return $selector.length > 0 ? selector : null
       } catch (error) {
         return null
@@ -11080,19 +11093,23 @@ const Util = (($) => {
     },
 
     triggerTransitionEnd(element) {
-      $(element).trigger(transition.end)
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(element).trigger(transition.end)
     },
 
     supportsTransitionEnd() {
       return Boolean(transition)
     },
 
+    isElement(obj) {
+      return (obj[0] || obj).nodeType
+    },
+
     typeCheckConfig(componentName, config, configTypes) {
       for (const property in configTypes) {
-        if (configTypes.hasOwnProperty(property)) {
+        if (Object.prototype.hasOwnProperty.call(configTypes, property)) {
           const expectedTypes = configTypes[property]
           const value         = config[property]
-          const valueType     = value && isElement(value) ?
+          const valueType     = value && Util.isElement(value) ?
                                 'element' : toType(value)
 
           if (!new RegExp(expectedTypes).test(valueType)) {
@@ -11110,11 +11127,10 @@ const Util = (($) => {
 
   return Util
 
-})(jQuery)
+})(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a)
 
 /* harmony default export */ __webpack_exports__["a"] = (Util);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 /* 6 */

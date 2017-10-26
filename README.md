@@ -5,8 +5,9 @@
 2. Установить gulp глобально (npm install gulp -g)
 3. Зайти в каталог проекта верстки и выполнить команду "npm install".
 
-Задачи gulp
-============
+Команды
+==========
 
-* gulp build - пересобирает css, js, svg спрайты
-* gulp (gulp default) - выполняет "gulp build" и запускает сервер browser-sync с вотчерами.
+- npm run dev - запускается локальный сервер с перезагрузкой
+- npm run build - просто сборка
+- npm run prod --production - сборка с минификацией css и js
