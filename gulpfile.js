@@ -14,7 +14,8 @@ let gulp = require('gulp'),
     cssbeautify = require('gulp-cssbeautify'),
     babel = require('gulp-babel'),
     webpack = require('webpack-stream'),
-    util = require('gulp-util');
+    util = require('gulp-util'),
+    imagemin = require('gulp-imagemin');
 
 let levels = bemconfig.levels,
     bundlesName = bemconfig.bundlesName;
@@ -60,6 +61,7 @@ gulp.task('images', function(){
             let imgGlob=dir + '/*.{jpg,png,svg,gif}';
             return imgGlob;
         }))
+            .pipe(production ? imagemin() : util.noop())
             .pipe(gulp.dest(bundlesName + '/images'))
             .pipe(reload({stream:true}));
     });
