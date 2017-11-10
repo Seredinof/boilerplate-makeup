@@ -15,7 +15,8 @@ let gulp = require('gulp'),
     babel = require('gulp-babel'),
     webpack = require('webpack-stream'),
     util = require('gulp-util'),
-    imagemin = require('gulp-imagemin');
+    imagemin = require('gulp-imagemin'),
+    base64 = require('gulp-base64');
 
 let levels = bemconfig.levels,
     bundlesName = bemconfig.bundlesName;
@@ -34,6 +35,13 @@ gulp.task('css', function(){
             .pipe(concat('styles.scss'))
             .pipe(sass().on('error', sass.logError))
             .pipe(csso())
+            .pipe(base64({
+                baseDir: bundlesName + '/images/',
+                extensions: ['png', 'jpg'],
+                exclude:    [/\.server\.(com|net)\/dynamic\//, '--live.jpg'],
+                maxImageSize: 8*1024, // bytes
+                //debug: true
+            }))
             .pipe(!production ? cssbeautify() : util.noop())
             .pipe(postcss([autoprefixer]))
             .pipe(gulp.dest(bundlesName + '/css'))
