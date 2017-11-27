@@ -2,10 +2,10 @@ function scrollToAnchor() {
     let scrollers = document.getElementsByClassName('j-scroll-to-anchor');
 
     for(let i=0; i < scrollers.length; i++) {
-        scrollers[i].addEventListener('click', function () {
+        scrollers[i].addEventListener('click', function (e) {
             let id = this.getAttribute('href').slice(1),
                 top;
-
+            e.preventDefault();
                 if(id.length) {
                    top = getTop(document.getElementById(id));
                 }
