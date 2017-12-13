@@ -3,7 +3,9 @@ let fs = require("fs"),
     html2bemjson = require('html2bemjson'),
     bemjsonToDecl = require('bemjson-to-decl'),
     bemDecl = require('bem-decl'),
-    bemconfig = require('./bem.config');
+    bemconfig = require('./bem.config'),
+    dirTree = require('directory-tree');
+
 
 let bundlesPath = path.join(__dirname, bemconfig.bundlesName);
 let levels = bemconfig.levels;
@@ -14,19 +16,12 @@ let promiseReadBundles = new Promise(function (resolve, reject) {
 
     let bundlesArr = [];
 
-    fs.readdir(bundlesPath, function(err, items) {
-
-        if(err) throw err;
-
-        for (let i=0; i<items.length; i++) {
-            if(path.extname(items[i]) == '.html') {
-                bundlesArr.push(bundlesPath+'/'+items[i]);
-            }
-        }
-
-        resolve(bundlesArr);
+    dirTree(bundlesPath, {extensions:/\.html/}, (item) => {
+        bundlesArr.push(item.path);
     });
-})
+
+    resolve(bundlesArr);
+});
 
 function makeDecl(file) {
     return new Promise(function (resolve, reject) {
