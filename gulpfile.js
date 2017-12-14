@@ -16,7 +16,8 @@ let gulp = require('gulp'),
     webpack = require('webpack-stream'),
     util = require('gulp-util'),
     imagemin = require('gulp-imagemin'),
-    base64 = require('gulp-base64');
+    base64 = require('gulp-base64'),
+    revts = require('gulp-rev-timestamp');
 
 let levels = bemconfig.levels,
     bundlesName = bemconfig.bundlesName;
@@ -26,6 +27,18 @@ var production = !!util.env.production;
 gulp.task('default', ['build', 'server']);
 
 gulp.task('build', ['css', 'js', 'images', 'svg-sprite']);
+
+gulp.task('production', ['build', 'rev-timestamp']);
+
+
+//?rev=@@hash
+gulp.task('rev-timestamp', function() {
+    gulp.src([bundlesName + '/*.html', bundlesName + '/**/*.html'])
+        .pipe(revts())
+        .pipe(gulp.dest(function(file){
+            return file.base;
+        }))
+});
 
 gulp.task('css', function(){
     makeDecl.then(function (blocksDir) {
@@ -110,5 +123,5 @@ gulp.task('server', function(){
     }), ['images', 'svg-sprite']);
 
     gulp.watch(bundlesName + '/*.html', ['css', 'js', 'images', 'svg-sprite']);
-    gulp.watch(bundlesName + '/*.html').on('change',  reload);
+    gulp.watch([bundlesName + '/*.html', bundlesName + '/**/*.html']).on('change',  reload);
 });

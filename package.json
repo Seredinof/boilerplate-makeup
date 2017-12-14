@@ -4,15 +4,17 @@
   "description": "boilerplate makeup bootstrap plus BEM",
   "main": "index.js",
   "dependencies": {
-    "bootstrap": "^4.0.0-beta",
     "autoprefixer": "^7.1.1",
     "bem-decl": "^0.3.0",
     "bemjson-to-decl": "^1.0.3",
+    "bootstrap": "^4.0.0-beta",
     "browser-sync": "^2.18.12",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-css-url-adjuster": "^0.2.3",
+    "gulp-imagemin": "^3.4.0",
     "gulp-postcss": "^7.0.0",
+    "gulp-rev-timestamp": "0.0.1",
     "gulp-sass": "^3.1.0",
     "gulp-svg-sprite": "^1.3.7",
     "html2bemjson": "^1.10.0"
@@ -37,7 +39,7 @@
   "scripts": {
     "dev": "gulp",
     "build": "gulp build",
-    "prod": "gulp build --production",
+    "prod": "gulp production --production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
