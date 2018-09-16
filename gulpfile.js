@@ -47,7 +47,7 @@ gulp.task('css', function(){
         }))
             .pipe(concat('styles.scss'))
             .pipe(sass().on('error', sass.logError))
-            .pipe(csso())
+            // .pipe(csso())
             .pipe(base64({
                 baseDir: bundlesName + '/images/',
                 extensions: ['png', 'jpg'],
@@ -55,7 +55,7 @@ gulp.task('css', function(){
                 maxImageSize: 8*1024, // bytes
                 //debug: true
             }))
-            .pipe(!production ? cssbeautify() : util.noop())
+            // .pipe(!production ? cssbeautify() : util.noop())
             .pipe(postcss([autoprefixer]))
             .pipe(gulp.dest(bundlesName + '/css'))
             .pipe(reload({stream:true}));

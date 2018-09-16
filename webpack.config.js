@@ -22,6 +22,6 @@ module.exports = {
             'window.jQuery': 'jquery',
             //Popper: ['popper.js', 'default'],
         }),
-        production ? new UglifyJSPlugin() : new webpack.DefinePlugin({})
+        // production ? new UglifyJSPlugin() : new webpack.DefinePlugin({})
     ]
 };
